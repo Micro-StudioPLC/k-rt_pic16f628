@@ -1,0 +1,54 @@
+v2.1.x 1/6/2025
+
+  Add k_systat() which update systat values
+  Add k_systat_display() which returns all systat values
+  Add k_printf()
+
+  Pending MCU implementation: k_printf(), k_shell()
+
+  Cleanup kernel code base.
+
+Subversions
+  2.1.1 (1/6/2025) Build fix
+
+v2 May 2025
+
+  31.5.25 Naming convention changing:
+
+  All these ref to the Task Scheduler.
+  All RT function calls run only from INT call (they are not stacked).
+  All below stacks and pointers refer to ST scheduler stack.
+
+    rt_sched_ptr_end -> k_sched_ptr_end : The k (Kernel) ST stack - begin
+    rt_sched_ptr_begin -> k_sched_ptr_begin : The k (Kernel) ST stack - end
+    us_sched_ptr_end -> u_sched_ptr_end : The u (user) ST stack
+    us_sched_ptr_begin -> u_sched_ptr_begin : The u (user) ST stack
+    RT_SCHEDULER_STACK_SIZE -> K_ST_SCHEDULER_STACK_SIZE
+    US_RT_SCHEDULER_STACK_SIZE -> U_ST_SCHEDULER_STACK_SIZE
+
+  Add performance tools in systat to supervise stacks (kernel and user space)
+  Add public interface for Alarm and Fault words.
+  Add Status word.
+  Add idle function call
+  Add couple initializers.
+
+  Implement commands k_command()
+  Implement commands k_status()
+  Implement systat status work update k_systat_update_status() and add caller
+  Add systat readbacks for stack sizes (U and K)
+
+29 and 30 may 2025 Cleaning code base and fixing PIC16F886 port
+
+  K-RT uses a couple function call, the HW stack was overloaded after
+  user code went into multiple sub calls. Needed to enable SW stack support.
+
+  Added systat performance tools.
+  Moved watchdog to RT 4ms task.
+  Add/fix the scheduler stack size protection and over/under flow.
+
+v1 2023
+  The Flight Timer application with K-RT underneath was refactored and
+  properly ported. Fixing the application crashes needed Linker option update.
+
+v0 About 2015
+  Initial version of K-RT (unnamed) with the original architecture.

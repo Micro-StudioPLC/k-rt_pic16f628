@@ -1,0 +1,586 @@
+[p GLOBOPT AUTOSTATIC IEEE_DBL IEEE_FLT PIC14 PICREGULAR PICMID ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 16F628 ]
+[d frameptr 0 ]
+"10 C:\Program Files\Microchip\xc8\v3.00\pic\sources\c99\common\sprcadd.c
+[v ___fladd __fladd `(d  1 e 4 0 ]
+"4 C:\Program Files\Microchip\xc8\v3.00\pic\sources\c99\common\Umul8_16.c
+[v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
+"6 C:\Program Files\Microchip\xc8\v3.00\pic\sources\c99\pic\__eeprom.c
+[v ___eecpymem __eecpymem `(v  1 e 1 0 ]
+"39
+[v ___memcpyee __memcpyee `(v  1 e 1 0 ]
+"26 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\interrupts.c
+[v _isr isr `II(v  1 e 1 0 ]
+"197 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_core.c
+[v _k_fault k_fault `T(uc  1 e 1 0 ]
+"201
+[v _k_alarm k_alarm `T(uc  1 e 1 0 ]
+"218
+[v _k_command k_command `T(uc  1 e 1 0 ]
+"325
+[v _k_rt_task_4ms_isr_entry k_rt_task_4ms_isr_entry `T(v  1 e 1 0 ]
+"378
+[v _k_rt_task_20ms k_rt_task_20ms `T(v  1 e 1 0 ]
+"393
+[v _k_rt_task_100ms k_rt_task_100ms `T(v  1 e 1 0 ]
+"400
+[v _k_rt_task_1s k_rt_task_1s `T(v  1 e 1 0 ]
+"410
+[v _k_st_task_4ms k_st_task_4ms `(v  1 e 1 0 ]
+"421
+[v _k_st_task_20ms k_st_task_20ms `(v  1 e 1 0 ]
+"433
+[v _k_st_task_100ms k_st_task_100ms `(v  1 e 1 0 ]
+"437
+[v _k_st_task_1s k_st_task_1s `(v  1 e 1 0 ]
+"443
+[v _k_schedule_task k_schedule_task `T(v  1 e 1 0 ]
+"464
+[v _k_task_handler k_task_handler `(v  1 e 1 0 ]
+"493
+[v _k_stack_full k_stack_full `(v  1 e 1 0 ]
+"498
+[v _k_schedule_task_user k_schedule_task_user `T(v  1 e 1 0 ]
+"519
+[v _k_task_handler_user k_task_handler_user `(v  1 e 1 0 ]
+"549
+[v _k_stack_full_user k_stack_full_user `(v  1 e 1 0 ]
+"554
+[v _k_task_is_scheduled k_task_is_scheduled `(i  1 e 2 0 ]
+"559
+[v _k_task_is_scheduled_user k_task_is_scheduled_user `(i  1 e 2 0 ]
+"600
+[v _k_systat_init k_systat_init `T(v  1 e 1 0 ]
+[v i1_k_systat_init k_systat_init `T(v  1 e 1 0 ]
+"618
+[v _k_systat_load_rt_task_in k_systat_load_rt_task_in `(v  1 e 1 0 ]
+"624
+[v _k_systat_load_rt_task_out k_systat_load_rt_task_out `(v  1 e 1 0 ]
+"636
+[v _k_idle k_idle `(v  1 e 1 0 ]
+"644
+[v _k_systat_load_rt_tmr_monitor k_systat_load_rt_tmr_monitor `(v  1 e 1 0 ]
+"653
+[v _k_systat_load_rt_task_calc k_systat_load_rt_task_calc `(v  1 e 1 0 ]
+"700
+[v _k_systat_update_status k_systat_update_status `T(v  1 e 1 0 ]
+"733
+[v _k_systat_load_rt_task_min k_systat_load_rt_task_min `(uc  1 e 1 0 ]
+"737
+[v _k_systat_load_rt_task_max k_systat_load_rt_task_max `(uc  1 e 1 0 ]
+"742
+[v _k_systat_load_rt_task_avg k_systat_load_rt_task_avg `(uc  1 e 1 0 ]
+"746
+[v _k_systat_load_rt_tmr_reload k_systat_load_rt_tmr_reload `(uc  1 e 1 0 ]
+"750
+[v _k_systat_load_rt_tmr_rollover k_systat_load_rt_tmr_rollover `(uc  1 e 1 0 ]
+"755
+[v _k_systat_load_st_task_min k_systat_load_st_task_min `(uc  1 e 1 0 ]
+"758
+[v _k_systat_load_st_task_max k_systat_load_st_task_max `(uc  1 e 1 0 ]
+"763
+[v _u_systat_load_st_task_min u_systat_load_st_task_min `(uc  1 e 1 0 ]
+"766
+[v _u_systat_load_st_task_max u_systat_load_st_task_max `(uc  1 e 1 0 ]
+"771
+[v _k_systat_load_st_task_avail k_systat_load_st_task_avail `(uc  1 e 1 0 ]
+"776
+[v _u_systat_load_st_task_avail u_systat_load_st_task_avail `(uc  1 e 1 0 ]
+"125 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_user.c
+[v _k_rt_task_4ms_user k_rt_task_4ms_user `T(v  1 e 1 0 ]
+"147
+[v _k_rt_task_20ms_user k_rt_task_20ms_user `T(v  1 e 1 0 ]
+"169
+[v _k_rt_task_100ms_user k_rt_task_100ms_user `T(v  1 e 1 0 ]
+"177
+[v _k_rt_task_1s_user k_rt_task_1s_user `T(v  1 e 1 0 ]
+"192
+[v _k_st_task_4ms_user k_st_task_4ms_user `(v  1 e 1 0 ]
+"201
+[v _k_st_task_20ms_user k_st_task_20ms_user `(v  1 e 1 0 ]
+"210
+[v _k_st_task_100ms_user k_st_task_100ms_user `(v  1 e 1 0 ]
+"218
+[v _k_st_task_1s_user k_st_task_1s_user `(v  1 e 1 0 ]
+"248
+[v _k_getchar_fill_buff k_getchar_fill_buff `(uc  1 e 1 0 ]
+"270
+[v _k_getchar k_getchar `(uc  1 e 1 0 ]
+"286
+[v _k_putchar k_putchar `(uc  1 e 1 0 ]
+"296
+[v _k_command_user k_command_user `T(uc  1 e 1 0 ]
+"31 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\main.c
+[v _main main `(v  1 e 1 0 ]
+"18 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\system.c
+[v _ConfigureOscillator ConfigureOscillator `(v  1 e 1 0 ]
+"22 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\user.c
+[v _InitApp InitApp `(v  1 e 1 0 ]
+"259 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub/k_rt_v2.1/k_rt_user.h
+[v _rx_buffer rx_buffer `[8]uc  1 e 8 0 ]
+"260
+[v _rx_content rx_content `i  1 e 2 0 ]
+"59 C:/Program Files/Microchip/MPLABX/v6.20/packs/Microchip/PIC16Fxxx_DFP/1.6.156/xc8\pic\include\proc/pic16f628.h
+[v _TMR0 TMR0 `VEuc  1 e 1 @1 ]
+"166
+[v _PORTA PORTA `VEuc  1 e 1 @5 ]
+"228
+[v _PORTB PORTB `VEuc  1 e 1 @6 ]
+[s S350 . 1 `uc 1 TMR1IF 1 0 :1:0 
+`uc 1 TMR2IF 1 0 :1:1 
+`uc 1 CCP1IF 1 0 :1:2 
+`uc 1 . 1 0 :1:3 
+`uc 1 TXIF 1 0 :1:4 
+`uc 1 RCIF 1 0 :1:5 
+`uc 1 CMIF 1 0 :1:6 
+`uc 1 EEIF 1 0 :1:7 
+]
+"405
+[u S359 . 1 `S350 1 . 1 0 ]
+[v _PIR1bits PIR1bits `VES359  1 e 1 @12 ]
+"753
+[v _TXREG TXREG `VEuc  1 e 1 @25 ]
+"760
+[v _RCREG RCREG `VEuc  1 e 1 @26 ]
+"767
+[v _CMCON CMCON `VEuc  1 e 1 @31 ]
+"837
+[v _OPTION_REG OPTION_REG `VEuc  1 e 1 @129 ]
+"907
+[v _TRISA TRISA `VEuc  1 e 1 @133 ]
+"969
+[v _TRISB TRISB `VEuc  1 e 1 @134 ]
+[s S371 . 1 `uc 1 TMR1IE 1 0 :1:0 
+`uc 1 TMR2IE 1 0 :1:1 
+`uc 1 CCP1IE 1 0 :1:2 
+`uc 1 . 1 0 :1:3 
+`uc 1 TXIE 1 0 :1:4 
+`uc 1 RCIE 1 0 :1:5 
+`uc 1 CMIE 1 0 :1:6 
+`uc 1 EEIE 1 0 :1:7 
+]
+"1048
+[u S380 . 1 `S371 1 . 1 0 ]
+[v _PIE1bits PIE1bits `VES380  1 e 1 @140 ]
+"1201
+[v _SPBRG SPBRG `VEuc  1 e 1 @153 ]
+"1348
+[v _BRGH BRGH `VEb  1 e 0 @1218 ]
+"1408
+[v _CREN CREN `VEb  1 e 0 @196 ]
+"1423
+[v _FERR FERR `VEb  1 e 0 @194 ]
+"1426
+[v _GIE GIE `VEb  1 e 0 @95 ]
+"1441
+[v _OERR OERR `VEb  1 e 0 @193 ]
+"1447
+[v _PEIE PEIE `VEb  1 e 0 @94 ]
+"1462
+[v _RA0 RA0 `VEb  1 e 0 @40 ]
+"1465
+[v _RA1 RA1 `VEb  1 e 0 @41 ]
+"1468
+[v _RA2 RA2 `VEb  1 e 0 @42 ]
+"1516
+[v _RCIE RCIE `VEb  1 e 0 @1125 ]
+"1537
+[v _SPEN SPEN `VEb  1 e 0 @199 ]
+"1543
+[v _SYNC SYNC `VEb  1 e 0 @1220 ]
+"1549
+[v _T0IE T0IE `VEb  1 e 0 @93 ]
+"1552
+[v _T0IF T0IF `VEb  1 e 0 @90 ]
+"1660
+[v _TRMT TRMT `VEb  1 e 0 @1217 ]
+"1669
+[v _TXEN TXEN `VEb  1 e 0 @1221 ]
+"1672
+[v _TXIE TXIE `VEb  1 e 0 @1124 ]
+"1726
+[v _nRBPU nRBPU `VEb  1 e 0 @1039 ]
+"192 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_core.c
+[v _k_fault_word k_fault_word `uc  1 e 1 0 ]
+"193
+[v _k_alarm_word k_alarm_word `uc  1 e 1 0 ]
+"194
+[v _k_status_word k_status_word `uc  1 e 1 0 ]
+"305
+[v _scheduler_stack scheduler_stack `[16]uc  1 e 16 0 ]
+"306
+[v _k_sched_ptr_begin k_sched_ptr_begin `uc  1 e 1 0 ]
+"307
+[v _k_sched_ptr_end k_sched_ptr_end `uc  1 e 1 0 ]
+"308
+[v _act_stack act_stack `uc  1 e 1 0 ]
+"309
+[v _t20ms t20ms `uc  1 e 1 0 ]
+"310
+[v _t100ms t100ms `uc  1 e 1 0 ]
+"311
+[v _t1s t1s `uc  1 e 1 0 ]
+"313
+[v _scheduler_stack_user scheduler_stack_user `[16]uc  1 e 16 0 ]
+"314
+[v _u_sched_ptr_begin u_sched_ptr_begin `uc  1 e 1 0 ]
+"315
+[v _u_sched_ptr_end u_sched_ptr_end `uc  1 e 1 0 ]
+"316
+[v _act_stack_user act_stack_user `uc  1 e 1 0 ]
+"319
+[v _act_stack_min act_stack_min `uc  1 e 1 0 ]
+"320
+[v _act_stack_max act_stack_max `uc  1 e 1 0 ]
+"321
+[v _act_stack_user_min act_stack_user_min `uc  1 e 1 0 ]
+"322
+[v _act_stack_user_max act_stack_user_max `uc  1 e 1 0 ]
+"577
+[v _k_systat_load_rt_entry k_systat_load_rt_entry `uc  1 e 1 0 ]
+"578
+[v _k_systat_load_rt_exit k_systat_load_rt_exit `uc  1 e 1 0 ]
+"579
+[v _k_systat_load_rt_min k_systat_load_rt_min `uc  1 e 1 0 ]
+"580
+[v _k_systat_load_rt_max k_systat_load_rt_max `uc  1 e 1 0 ]
+"581
+[v _k_systat_load_rt_avg k_systat_load_rt_avg `uc  1 e 1 0 ]
+"582
+[v _k_systat_load_rt_tmr_reload_value k_systat_load_rt_tmr_reload_value `uc  1 e 1 0 ]
+"583
+[v _k_systat_load_rt_tmr_roll k_systat_load_rt_tmr_roll `uc  1 e 1 0 ]
+"245 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_user.c
+[v _rx_b_ptr rx_b_ptr `i  1 e 2 0 ]
+"246
+[v _rx_e_ptr rx_e_ptr `i  1 e 2 0 ]
+"31 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\main.c
+[v _main main `(v  1 e 1 0 ]
+{
+"63
+} 0
+"559 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_core.c
+[v _k_task_is_scheduled_user k_task_is_scheduled_user `(i  1 e 2 0 ]
+{
+"561
+} 0
+"554
+[v _k_task_is_scheduled k_task_is_scheduled `(i  1 e 2 0 ]
+{
+"556
+} 0
+"519
+[v _k_task_handler_user k_task_handler_user `(v  1 e 1 0 ]
+{
+"546
+} 0
+"192 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_user.c
+[v _k_st_task_4ms_user k_st_task_4ms_user `(v  1 e 1 0 ]
+{
+"199
+} 0
+"201
+[v _k_st_task_20ms_user k_st_task_20ms_user `(v  1 e 1 0 ]
+{
+"208
+} 0
+"218
+[v _k_st_task_1s_user k_st_task_1s_user `(v  1 e 1 0 ]
+{
+"230
+[v k_st_task_1s_user@ra0 ra0 `i  1 s 2 ra0 ]
+"235
+} 0
+"210
+[v _k_st_task_100ms_user k_st_task_100ms_user `(v  1 e 1 0 ]
+{
+"216
+} 0
+"464 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_core.c
+[v _k_task_handler k_task_handler `(v  1 e 1 0 ]
+{
+"490
+} 0
+"410
+[v _k_st_task_4ms k_st_task_4ms `(v  1 e 1 0 ]
+{
+"414
+[v k_st_task_4ms@ra1 ra1 `i  1 s 2 ra1 ]
+"419
+} 0
+"421
+[v _k_st_task_20ms k_st_task_20ms `(v  1 e 1 0 ]
+{
+"430
+} 0
+"437
+[v _k_st_task_1s k_st_task_1s `(v  1 e 1 0 ]
+{
+"438
+} 0
+"433
+[v _k_st_task_100ms k_st_task_100ms `(v  1 e 1 0 ]
+{
+"434
+} 0
+"600
+[v _k_systat_init k_systat_init `T(v  1 e 1 0 ]
+{
+"614
+} 0
+"636
+[v _k_idle k_idle `(v  1 e 1 0 ]
+{
+"641
+} 0
+"644
+[v _k_systat_load_rt_tmr_monitor k_systat_load_rt_tmr_monitor `(v  1 e 1 0 ]
+{
+"646
+[v k_systat_load_rt_tmr_monitor@tmr tmr `uc  1 a 1 0 ]
+"651
+} 0
+"22 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\user.c
+[v _InitApp InitApp `(v  1 e 1 0 ]
+{
+"63
+} 0
+"18 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\system.c
+[v _ConfigureOscillator ConfigureOscillator `(v  1 e 1 0 ]
+{
+"25
+} 0
+"26 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\interrupts.c
+[v _isr isr `II(v  1 e 1 0 ]
+{
+"45
+[v isr@rx rx `uc  1 a 1 11 ]
+"51
+} 0
+"325 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_core.c
+[v _k_rt_task_4ms_isr_entry k_rt_task_4ms_isr_entry `T(v  1 e 1 0 ]
+{
+"375
+} 0
+"700
+[v _k_systat_update_status k_systat_update_status `T(v  1 e 1 0 ]
+{
+"721
+} 0
+"624
+[v _k_systat_load_rt_task_out k_systat_load_rt_task_out `(v  1 e 1 0 ]
+{
+"625
+[v k_systat_load_rt_task_out@tmr tmr `uc  1 a 1 0 ]
+"627
+} 0
+"618
+[v _k_systat_load_rt_task_in k_systat_load_rt_task_in `(v  1 e 1 0 ]
+{
+"619
+[v k_systat_load_rt_task_in@tmr tmr `uc  1 a 1 0 ]
+"621
+} 0
+"653
+[v _k_systat_load_rt_task_calc k_systat_load_rt_task_calc `(v  1 e 1 0 ]
+{
+"665
+[v k_systat_load_rt_task_calc@k_systat_load_rt_delta k_systat_load_rt_delta `uc  1 a 1 5 ]
+"659
+[v k_systat_load_rt_task_calc@loc_k_systat_load_rt_entry loc_k_systat_load_rt_entry `uc  1 a 1 4 ]
+"658
+[v k_systat_load_rt_task_calc@loc_k_systat_load_rt_exit loc_k_systat_load_rt_exit `uc  1 a 1 3 ]
+"686
+} 0
+"125 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_user.c
+[v _k_rt_task_4ms_user k_rt_task_4ms_user `T(v  1 e 1 0 ]
+{
+"138
+[v k_rt_task_4ms_user@ci ci `uc  1 a 1 6 ]
+"146
+} 0
+"270
+[v _k_getchar k_getchar `(uc  1 e 1 0 ]
+{
+"272
+[v k_getchar@rv rv `uc  1 a 1 0 ]
+"281
+} 0
+"197 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_core.c
+[v _k_fault k_fault `T(uc  1 e 1 0 ]
+{
+"199
+} 0
+"218
+[v _k_command k_command `T(uc  1 e 1 0 ]
+{
+[v k_command@ci ci `uc  1 p 1 wreg ]
+[v k_command@ci ci `uc  1 p 1 wreg ]
+"220
+[v k_command@ci ci `uc  1 p 1 5 ]
+"301
+} 0
+"600
+[v i1_k_systat_init k_systat_init `T(v  1 e 1 0 ]
+{
+"614
+} 0
+"763
+[v _u_systat_load_st_task_min u_systat_load_st_task_min `(uc  1 e 1 0 ]
+{
+"765
+} 0
+"766
+[v _u_systat_load_st_task_max u_systat_load_st_task_max `(uc  1 e 1 0 ]
+{
+"768
+} 0
+"776
+[v _u_systat_load_st_task_avail u_systat_load_st_task_avail `(uc  1 e 1 0 ]
+{
+"778
+} 0
+"755
+[v _k_systat_load_st_task_min k_systat_load_st_task_min `(uc  1 e 1 0 ]
+{
+"757
+} 0
+"758
+[v _k_systat_load_st_task_max k_systat_load_st_task_max `(uc  1 e 1 0 ]
+{
+"760
+} 0
+"771
+[v _k_systat_load_st_task_avail k_systat_load_st_task_avail `(uc  1 e 1 0 ]
+{
+"773
+} 0
+"750
+[v _k_systat_load_rt_tmr_rollover k_systat_load_rt_tmr_rollover `(uc  1 e 1 0 ]
+{
+"752
+} 0
+"746
+[v _k_systat_load_rt_tmr_reload k_systat_load_rt_tmr_reload `(uc  1 e 1 0 ]
+{
+"748
+} 0
+"733
+[v _k_systat_load_rt_task_min k_systat_load_rt_task_min `(uc  1 e 1 0 ]
+{
+"735
+} 0
+"737
+[v _k_systat_load_rt_task_max k_systat_load_rt_task_max `(uc  1 e 1 0 ]
+{
+"739
+} 0
+"742
+[v _k_systat_load_rt_task_avg k_systat_load_rt_task_avg `(uc  1 e 1 0 ]
+{
+"744
+} 0
+"296 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_user.c
+[v _k_command_user k_command_user `T(uc  1 e 1 0 ]
+{
+[v k_command_user@ci ci `uc  1 p 1 wreg ]
+"475
+[v k_command_user@rv_l_345 rv_l `uc  1 a 1 3 ]
+"426
+[v k_command_user@rv_l rv_l `uc  1 a 1 2 ]
+"296
+[v k_command_user@ci ci `uc  1 p 1 wreg ]
+"305
+[v k_command_user@state state `uc  1 s 1 state ]
+"306
+[v k_command_user@byte_0 byte_0 `uc  1 s 1 byte_0 ]
+"307
+[v k_command_user@byte_1 byte_1 `uc  1 s 1 byte_1 ]
+"308
+[v k_command_user@byte_2 byte_2 `uc  1 s 1 byte_2 ]
+"309
+[v k_command_user@loop_cnt loop_cnt `uc  1 s 1 loop_cnt ]
+"311
+[v k_command_user@ci ci `uc  1 p 1 4 ]
+"583
+} 0
+"286
+[v _k_putchar k_putchar `(uc  1 e 1 0 ]
+{
+[v k_putchar@ci ci `uc  1 p 1 wreg ]
+[v k_putchar@ci ci `uc  1 p 1 wreg ]
+"288
+[v k_putchar@ci ci `uc  1 p 1 0 ]
+"291
+} 0
+"201 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_core.c
+[v _k_alarm k_alarm `T(uc  1 e 1 0 ]
+{
+"203
+} 0
+"147 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_user.c
+[v _k_rt_task_20ms_user k_rt_task_20ms_user `T(v  1 e 1 0 ]
+{
+"168
+} 0
+"378 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_core.c
+[v _k_rt_task_20ms k_rt_task_20ms `T(v  1 e 1 0 ]
+{
+"390
+} 0
+"177 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_user.c
+[v _k_rt_task_1s_user k_rt_task_1s_user `T(v  1 e 1 0 ]
+{
+"181
+} 0
+"400 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_core.c
+[v _k_rt_task_1s k_rt_task_1s `T(v  1 e 1 0 ]
+{
+"404
+} 0
+"169 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_user.c
+[v _k_rt_task_100ms_user k_rt_task_100ms_user `T(v  1 e 1 0 ]
+{
+"175
+} 0
+"393 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_core.c
+[v _k_rt_task_100ms k_rt_task_100ms `T(v  1 e 1 0 ]
+{
+"397
+} 0
+"498
+[v _k_schedule_task_user k_schedule_task_user `T(v  1 e 1 0 ]
+{
+[v k_schedule_task_user@task task `uc  1 p 1 wreg ]
+[v k_schedule_task_user@task task `uc  1 p 1 wreg ]
+[v k_schedule_task_user@task task `uc  1 p 1 0 ]
+"516
+} 0
+"549
+[v _k_stack_full_user k_stack_full_user `(v  1 e 1 0 ]
+{
+"551
+} 0
+"443
+[v _k_schedule_task k_schedule_task `T(v  1 e 1 0 ]
+{
+[v k_schedule_task@task task `uc  1 p 1 wreg ]
+[v k_schedule_task@task task `uc  1 p 1 wreg ]
+[v k_schedule_task@task task `uc  1 p 1 0 ]
+"461
+} 0
+"493
+[v _k_stack_full k_stack_full `(v  1 e 1 0 ]
+{
+"495
+} 0
+"248 C:\Users\Simon\Documents\mplab_projects_2025\PIC16F628_K-RT_V2.1.3_pub\k_rt_v2.1/k_rt_user.c
+[v _k_getchar_fill_buff k_getchar_fill_buff `(uc  1 e 1 0 ]
+{
+[v k_getchar_fill_buff@c_in c_in `uc  1 p 1 wreg ]
+[v k_getchar_fill_buff@c_in c_in `uc  1 p 1 wreg ]
+[v k_getchar_fill_buff@c_in c_in `uc  1 p 1 0 ]
+"260
+} 0
