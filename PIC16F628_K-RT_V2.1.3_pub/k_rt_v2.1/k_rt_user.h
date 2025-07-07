@@ -1,5 +1,5 @@
 /*
-* K-RT (v2.1.2)
+* K-RT (v2.1.4)
 * Microcontrollers Real Time Kernel / Scheduler / Tool set
 *
 * RT      Real time tasks for User and Kernel calls
@@ -255,18 +255,35 @@ int main() {
      // Serial communications
 
      // Kernel read/write
-     #define RX_BUF_SIZE 8
-     char rx_buffer[RX_BUF_SIZE];
-     int rx_content = 0;
-     char k_getchar_fill_buff(char);
+
      char k_getchar(void);       // Reads single char from serial input
      char k_putchar(char);       // Sends single char through serial input
      char k_printf(const char * , ...); // printf to serial output
+
+     // Read buffer
+     #define RX_BUF_SIZE 8
+     char rx_buffer[RX_BUF_SIZE];
+     int rx_content = 0;
+
+     // char k_getchar_read_buff(); // Directly in k_getchar(), ok same file
+     char k_getchar_write_buff(char);
+
+     // Write buffer
+     #define TX_BUF_SIZE 16
+     char tx_buffer[TX_BUF_SIZE];
+     int tx_content = 0;
+
+     char k_putchar_read_buff();
+     char k_putchar_write_buff(char);
 
      // Remote shell
      // Via SP software serial com
 
      // Definitions (common with SP)
+
+     // The MCU Manufacturer and type as defined in KRT/MSPLC specification
+     #define HW_MCU_MFR   0x30 // Microchip
+     #define HW_MCU_TYPE  0x09 // PIC16F628/628A
 
      /*
      * All M* definitions: See correspondance table.
@@ -275,13 +292,13 @@ int main() {
      */
 
      // M1...M64 : Kernel base commands
-     #define CMD_RET_ST_AL_FLT_WORDS    64	// Return Status, Alarm and Fault words
-     #define CMD_RUN_U_ST				        32	// Run U - ST(User Space scheduler)
-     #define CMD_STOP_U_ST				      16	// Stop U - ST(User Space scheduler)
-     #define CMD_CLR_ST_AL_FLT_WORDS	   8	// Clear Fault and Alarm Words
-     #define CMD_RET_SYSTAT_RESET		     4	// Read - back systat then reset min / max
-     #define CMD_RUN_K_ST				         2	// Run K - ST(Kernel Space scheduler)
-     #define CMD_STOP_K_ST				       1	// Stop K - ST(Kernel Space scheduler)
+     #define CMD_RET_ST_AL_FLT_WORDS        64	// Return Status, Alarm and Fault words
+     #define CMD_RUN_U_ST				    32	// Run U - ST(User Space scheduler)
+     #define CMD_STOP_U_ST				    16	// Stop U - ST(User Space scheduler)
+     #define CMD_CLR_ST_AL_FLT_WORDS        8	// Clear Fault and Alarm Words
+     #define CMD_RET_SYSTAT_RESET		    4	// Read - back systat then reset min / max
+     #define CMD_RUN_K_ST				    2	// Run K - ST(Kernel Space scheduler)
+     #define CMD_STOP_K_ST				    1	// Stop K - ST(Kernel Space scheduler)
 
      // M8...M134 : General commands
 
@@ -292,7 +309,7 @@ int main() {
      #define CMD_GEN_GNCO  				  129	// g[n]co	Set GPIO [n] as digital output
      #define CMD_GEN_GNCA  				  130	// g[n]ca	Set GPIO [n] as analog input. Server responds with PWM resolution in bits.
      #define CMD_GEN_GNCP  				  131	// g[n]cp	Set GPIO [n] as PWM output. Server responds with PWM resolution in bits.
-     #define CMD_GEN_GNCR  			  	135	// g[n]cr	Read-back GPIO [n] Configuration
+     #define CMD_GEN_GNCR                 135	// g[n]cr	Read-back GPIO [n] Configuration
 
      #define CMD_GEN_GNCOD  				136	// g[n]cod	Configure GPIO [n] Open Drain (High Z)
      #define CMD_GEN_GNCPU  				137	// g[n]cpu	Configure GPIO [n] Pull Up
@@ -308,7 +325,7 @@ int main() {
      // Message number M32 ... M55
      // Multiples not yet implemented
 
-     #define CMD_GEN_GNRD				  152	// g[n]rd		  Read GPIO [n]. Returns a boolean (8 bit with boolean at LSB)
+     #define CMD_GEN_GNRD				152	// g[n]rd		  Read GPIO [n]. Returns a boolean (8 bit with boolean at LSB)
      #define CMD_GEN_GNRD8 				153	// g[n]rd8		Read GPIO [n] through [n+7]. Returns an 8 bit result LSB = [n] MSB = [n+7]
      #define CMD_GEN_GNRD16 			154	// g[n]rd16		Read GPIO [n] through [n+15]. Returns an 8 bit result LSB = [n] MSB = [n+15]
      #define CMD_GEN_GNRD32				155	// g[n]rd32		Read GPIO [n] through [n+31]. Returns an 8 bit result LSB = [n] MSB = [n+31]
@@ -317,11 +334,11 @@ int main() {
      #define CMD_GEN_GNRA  			  160	// g[n]ra		    Read analog input [n]. Returns N bytes depending on ADC configuration.
      // #define CMD_GEN_GNRAM		  161	// g[n]ra[m]ra…	Read list of analog inputs ex. g1a2a4a8a reads Analog channels 1,2,4,8. Packed payload received.
 
-     #define CMD_GEN_GNWD  			  164	// g[n]wd[v]		Write [v] to GPIO [n]. Payload 1 byte, bits 7-1 = address, bit 0 = value
+     #define CMD_GEN_GNWD               164	// g[n]wd[v]		Write [v] to GPIO [n]. Payload 1 byte, bits 7-1 = address, bit 0 = value
      // #define CMD_GEN_GNWDM		 	165	// g[n1]wd[v1]m[n2]wd[v2]	Write multiple GPIO : Payload of [i] GPIO to setup. Payload 1 byte, bits 7-1 = address, bit 0 = value
 
      #define CMD_GEN_GNWP 				168	// g[n]wp[v]		For a PWM output, writes unscaled value (with of the PWM received at configuration). Send the payload appropriately.
-     // #define CMD_GEN_GNWPM  		169	// g[n1]wp[v1]m[n2]wp[v2]	Set many PWM ([i]). Payload is the packed PWM configuration. Ex
+     // #define CMD_GEN_GNWPM           169	// g[n1]wp[v1]m[n2]wp[v2]	Set many PWM ([i]). Payload is the packed PWM configuration. Ex
 
      // Payload
      // Message number M176 ... M191
@@ -348,11 +365,24 @@ int main() {
      #define CMD_CRC_16_BITS				193 // 16 bit CRC
      #define CMD_CRC_32_BITS				194 // 32 bit CRC
 
-     // M200 ... M253: Not defined
+     // M200 ... M223: Not defined
      // ...
 
-     #define CMD_CLR_SERIAL				254 // Clear serial decoder states
+     #define CMD_INF_HWMCU				  224 // ihwmcu
+     #define CMD_INF_PING				    225 // iping
+     #define CMD_INF_RTC_RD				  226 // irtcrd
+     #define CMD_INF_RTC_WR				  227 // irtcwr
+     #define CMD_INF_RTC_DEV_RD			228 // irtcdevrd
+     #define CMD_INF_RTC_DEV_WR			229 // irtcdevwr
+     #define CMD_INF_BATT				    230 // ibatt
+     #define CMD_INF_SUPPLY				  231 // isup
+     #define CMD_INF_CONSO				  232 // icons
+     #define CMD_MCU_SLEEP				  240 // csleep
+     #define CMD_MCU_WAKE				    241 // cwake
+     #define CMD_FRAME_HEADER			  248 // mhead
 
+     #define CMD_NOP						  253 // Nop
+     #define CMD_CLR_SERIAL				254 // Clear serial decoder states
 
      // Extended commands
 

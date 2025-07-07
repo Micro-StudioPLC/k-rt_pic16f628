@@ -1,5 +1,5 @@
 /*
-* K-RT (v2.1.3)
+* K-RT (v2.1.4)
 * Microcontrollers Real Time Kernel / Scheduler / Tool set
 *
 * RT      Real time tasks for User and Kernel calls
@@ -126,10 +126,10 @@ inline void k_rt_task_4ms_user(void) {
   // Real time interrupt context, exec below 4 ms
 
     /* Place your application code hereunder */
-
     // ...
+
     if (k_alarm() || k_fault()) {
-        RA2 = 1;
+      RA2 = 1;
     } else {
       RA2 = 0;
     }
@@ -234,27 +234,53 @@ void k_st_task_1s_user(void) {
 #endif
 }
 
+/* **********************  ********************** */
+
 // Serial Read/Writes and Commands
+
+/*
+  Sending through UART
+
+  We load TX reg (initializes the line to TX)
+  or the TX buffer if the line was busy.
+  Interrupt will then be trig when TX freed and
+  proceed with the buffer onwards until empty.
+
+  k_putchar()
+  Check is TX in progress
+  Free: Loads ci in txreg directly
+  Busy: Loads ci in buffer through k_putchar_write_buff()
+
+  k_getchar()
+  Upon receipt, the Interrupt trigs and calls RX->buffer function.
+  We always immediately load the RX buffer and return from Interrupt.
+  Buffer may be free or full, accept/reject RX is handled in
+  k_getchar_write_buff().
+  Getter k_getchar() always read from buffer.
+  Setter k_getchar_write_buff() runs in interrupt context.
+*/
 
 // k_getchar() and k_putchar() implementation is custom to Hardware
 
 // getchar() and putchar() are User defined (Hardware specific)
 // These are the Serial I/O Drivers.
 
+/* ********************** k_getchar_write_buff() ********************** */
+
 // Receive buffer
 int rx_b_ptr = 0;
 int rx_e_ptr = 0;
 // Running in Interrupt Context
-char k_getchar_fill_buff(char c_in) {
+char k_getchar_write_buff(char c_in) {
   if (rx_content < RX_BUF_SIZE) {
-    rx_content++;
     rx_buffer[rx_e_ptr++] = c_in;
     if (rx_e_ptr == RX_BUF_SIZE)
       rx_e_ptr = 0;
+    rx_content++; // Important: do this only after fill a buffer slot
+                  // We need handle valid data before inform the external code
   } else {
-    // Serial in rejection
-    // Handler as needed
-    // ...
+    // Error handler, RX Buff full (buffer overrun)
+    // TODO
   }
   return 0;
 }
@@ -264,10 +290,12 @@ char k_getchar_fill_buff(char c_in) {
 //........e
 //c8
 
-/* **********************  ********************** */
+/* ********************** k_getchar() ********************** */
 
 // Reads serial input
 char k_getchar() {
+  // Reads serial input from buffer
+  // char rv = k_getchar_read_buff()
   if (rx_content > 0) {
     char rv = 0;
     rv = rx_buffer[rx_b_ptr++];
@@ -275,19 +303,91 @@ char k_getchar() {
       rx_b_ptr = 0;
     }
     rx_content--; // Important: do this only after empty a buffer slot
+                  // We need handle valid data before inform the external code
     return rv;
+  } else {
+    // Error handler, RX Buff empty (buffer underrun)
+    // TODO
   }
   return 0;
 }
 
-/* **********************  ********************** */
+/* ********************** k_putchar_write_buff() ********************** */
+
+// Transmit buffer
+int tx_b_ptr = 0;
+int tx_e_ptr = 0;
+
+char k_putchar_write_buff(char ci) {
+  if (tx_content < TX_BUF_SIZE) {
+    tx_buffer[tx_e_ptr++] = ci;
+    if (tx_e_ptr == TX_BUF_SIZE)
+      tx_e_ptr = 0;
+    tx_content++; // Important: do this only after fill a buffer slot
+                  // We need handle valid data before inform the external code
+    return ci;
+  } else {
+    // Error handler, TX Buff full (buffer overrun)
+    // TODO
+  }
+  return 0;
+}
+
+/* ********************** k_putchar_read_buff() ********************** */
+
+// Called from interrupt context
+char k_putchar_read_buff() {
+  if (tx_content > 0) {
+    char rv = 0;
+    rv = tx_buffer[tx_b_ptr++];
+    if (tx_b_ptr == TX_BUF_SIZE) {
+      tx_b_ptr = 0;
+    }
+    tx_content--; // Important: do this only after empty a buffer slot
+                  // We need handle valid data before inform the external code
+    return rv;
+  } else {
+    // Error handler, TX Buff empty (buffer underrun)
+    // TODO
+  }
+  /*
+    TODO: Robustness
+    For safety precaution, in ST 4ms loop:
+    - Check TX buffer empty
+    - If not empty, check TX status & confirm sending
+    - If buffer not empty & TX not sending, timeout 5 x 4ms then reset TX
+      and raise Logic Fault (auxiliary fault word).
+  */
+  return 0;
+}
+
+/* TODO
+  Systat
+  Max TX/RX Buffer */
+
+/* ********************** k_putchar() ********************** */
 
 // Sends serial output
 char k_putchar(char ci) {
- // Sends ci through serial port
- TXREG = ci; // 0b10101010;
- while (!TRMT); // Performance: Busy loop.
- return ci; // On success
+  // Loading TX reg or buffer
+  // Interrupt version
+  if (TRMT && !tx_content) {
+    // No TX in progress and Buffer empty, load TX register
+    // Otherwise we let the Interrupt handle TX appropriately.
+    TXREG = ci;
+    return ci;
+  } else {
+    // TX in progress, load buffer
+    char rv = 0;
+    rv = k_putchar_write_buff(ci);
+
+    TXIE = 1; // So that INT will empty the buffer after each TX term
+    return rv;
+  }
+ /* Busyloop version (Less Interrupt load, more cpu load)
+ TXREG = ci;
+ while (!TRMT);
+ return ci; */
 }
 
 /* **********************  ********************** */
@@ -295,7 +395,7 @@ char k_putchar(char ci) {
 // Custom User command decoder
 inline char k_command_user(char ci) {
   // Refactor / Optimize
-  // Pprogram flash, reinit call, caution stack depth
+  // Program flash, reinit call, caution stack depth
 
   // Important
   // When adding capabilities, put the init instruction on function end
@@ -319,7 +419,6 @@ inline char k_command_user(char ci) {
   }
 
   // Statuful instructions: Continuation
-
 #if 1
   {
     if (state) {
@@ -421,18 +520,16 @@ inline char k_command_user(char ci) {
         }
 
       } else if (byte_0 == CMD_GEN_GNCR) {
-// Readback GPIO Digital value --> Configuration
-// >...
-char rv_l = 0;
-if (byte_1 < 8) {
-  rv_l = TRISA & (1<<byte_1);
+        // Readback GPIO Digital value --> Configuration
+        char rv_l = 0;
+        if (byte_1 < 8) {
+          rv_l = TRISA & (1<<byte_1);
 
-} else if (byte_1 < 16) {
-  rv_l = TRISB & (1<<(byte_1 - 8)); // Range 8-15 -> 0-7 Setup GPIO ... as DI
-}
-if (rv_l) k_putchar(1);
-else k_putchar(0);
-// ...<
+        } else if (byte_1 < 16) {
+          rv_l = TRISB & (1<<(byte_1 - 8)); // Range 8-15 -> 0-7 Setup GPIO ... as DI
+        }
+        if (rv_l) k_putchar(1);
+        else k_putchar(0);
         // Reinit
         {
           loop_cnt = 0;
@@ -490,7 +587,19 @@ else k_putchar(0);
           byte_1 = 0;
           byte_2 = 0;
         }
+      } else if (byte_0 == CMD_INF_HWMCU) {
 
+        k_putchar(HW_MCU_MFR);
+        k_putchar(HW_MCU_TYPE);
+
+        // Reinit
+        {
+          loop_cnt = 0;
+          state = 0;
+          byte_0 = 0;
+          byte_1 = 0;
+          byte_2 = 0;
+        }
       }
 
       // ... else if ... 2 packet transctions here
@@ -570,6 +679,10 @@ else k_putchar(0);
         state = 1; // Stateful activity
       } else if (ci == CMD_GEN_GNWD) {
         // GPIO Write Digital
+        byte_0 = ci; // Record command
+        state = 1; // Stateful activity
+      } else if (ci == CMD_INF_HWMCU) {
+        // MCU Infos
         byte_0 = ci; // Record command
         state = 1; // Stateful activity
       }

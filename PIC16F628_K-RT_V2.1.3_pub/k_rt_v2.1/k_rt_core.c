@@ -1,5 +1,5 @@
 /*
-* K-RT (v2.1.2)
+* K-RT (v2.1.4)
 * Microcontrollers Real Time Kernel / Scheduler / Tool set
 *
 * RT      Real time tasks for User and Kernel calls
@@ -365,13 +365,13 @@ char act_stack_user_max = 0;
     // This is a 4ms pulse (8ms period) of RA1 pin running from Kernel RT loop.
     // It should always be running as long as the MCU and Timer interrupt are
     // good.
-#if 0
+ #if 1
     {
         static int ra1 = 0;
         ra1 ^= 1;
         RA1 = ra1;
     }
-#endif
+ #endif
 }
 
 // RT context
@@ -409,7 +409,7 @@ inline void k_rt_task_1s() {
 
 void k_st_task_4ms() {
   // ST Hearbeat
-#if 1
+#if 0
   {
       static int ra1 = 0;
       ra1 ^= 1;
@@ -656,11 +656,15 @@ void k_systat_load_rt_task_calc() {
   // More rubust solution will need a double buffer (TODO).
 
   uint8_t loc_k_systat_load_rt_exit = k_systat_load_rt_exit;
-  uint8_t loc_k_systat_load_rt_entry = k_systat_load_rt_entry;
+  uint8_t loc_k_systat_load_rt_entry = /*k_systat_load_rt_entry*/131;
 
   // TODO : Calculation with Roll-over correction
-  if (loc_k_systat_load_rt_exit < loc_k_systat_load_rt_entry)
-    return;
+  if (loc_k_systat_load_rt_exit <= loc_k_systat_load_rt_entry) {
+    // Correction formula: (0xff-entry)+exit+1
+    loc_k_systat_load_rt_exit += (0xff - loc_k_systat_load_rt_entry + 1);
+    loc_k_systat_load_rt_entry = 0;
+    // return;
+  }
 
   uint8_t k_systat_load_rt_delta;
   k_systat_load_rt_delta = loc_k_systat_load_rt_exit - loc_k_systat_load_rt_entry;
