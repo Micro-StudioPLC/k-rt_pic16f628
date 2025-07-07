@@ -21,8 +21,8 @@ K-RT Base commands support:
 MPLAB X Footprint:
 ```
 16F628 Memory Summary:
-    Program space        used   611h (  1553) of   800h words   ( 75.8%)
-    Data space           used    61h (    97) of    E0h bytes   ( 43.3%)
+    Program space        used   6BDh (  1725) of   800h words   ( 84.2%)
+    Data space           used    78h (   120) of    E0h bytes   ( 53.6%)
     EEPROM space         used     0h (     0) of    80h bytes   (  0.0%)
     Configuration bits   used     1h (     1) of     1h word    (100.0%)
     ID Location space    used     0h (     0) of     4h bytes   (  0.0%)
